@@ -43,7 +43,10 @@ class MQTTWrapper(Thread):
         # Variable to keep track of latest published packet
         self._timestamp_last_publish = datetime.now()
 
-        self._client = mqtt.Client(client_id=settings.gateway_id)
+        self._client = mqtt.Client(
+            client_id=settings.gateway_id,
+            clean_session=not settings.mqtt_persist_session,
+        )
 
         if not settings.mqtt_force_unsecure:
             try:
